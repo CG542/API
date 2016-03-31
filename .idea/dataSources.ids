@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - MotGuest@yxzhm.com" uuid="deaab6b0-58d5-4941-ad27-d2c84e511997">
+    <database-info product="MySQL" version="5.5.47-0ubuntu0.14.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
+      <schema id="1" name="MotGuest"/>
+      <table id="2" parent="1" name="Wifi"/>
+      <column id="3" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="4" parent="2" name="wifidates">
+        <data-type>varchar(45)</data-type>
+      </column>
+      <column id="5" parent="2" name="password">
+        <data-type>varchar(45)</data-type>
+      </column>
+      <index id="6" parent="2" name="id_UNIQUE">
+        <columns>id</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="7" parent="2" name="id_UNIQUE">
+        <columns>id</columns>
+        <underlying-index>id_UNIQUE</underlying-index>
+      </key>
+      <key id="8" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>
