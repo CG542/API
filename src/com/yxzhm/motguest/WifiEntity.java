@@ -49,7 +49,7 @@ public class WifiEntity {
 
         WifiEntity that = (WifiEntity) o;
 
-        if (id != that.id) return false;
+
         if (wifidates != null ? !wifidates.equals(that.wifidates) : that.wifidates != null) return false;
         if (password != null ? !password.equals(that.password) : that.password != null) return false;
 
