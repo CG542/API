@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * Created by mot on 4/1/16.
  */
-@Path("/motguest")
-public class motguest {
+@Path("/MotGuest")
+public class MotGuest {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)

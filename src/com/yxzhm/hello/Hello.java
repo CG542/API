@@ -1,4 +1,4 @@
-package com.yxzhm;
+package com.yxzhm.hello;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
