@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.ExceptionMapper;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -34,8 +35,10 @@ public class MotGuest {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public String uploadWifiPsw(@FormParam("date") String date, @FormParam("pwd") String pwd) {
+    public String uploadWifiPsw(@FormParam("date") String date, @FormParam("pwd") String pwd) throws UnsupportedEncodingException {
 
+        date=DeEncryString(date);
+        pwd=DeEncryString(pwd);
         WifiEntity entity = new WifiEntity();
 
         entity.setWifidates(date);
@@ -61,5 +64,12 @@ public class MotGuest {
         }
         return "Success";
 
+    }
+    private static String DeEncryString(String s) throws UnsupportedEncodingException {
+        byte[] data= s.getBytes("ASCII");
+        for (int i=0;i<data.length;i++) {
+            data[i]=(byte)(data[i]-1);
+        }
+        return new String(data);
     }
 }
