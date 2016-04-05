@@ -21,24 +21,31 @@ public class MotGuest {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getWifiPsw() {
+    public String getWifiPsw(@QueryParam("encry") boolean encry) throws UnsupportedEncodingException {
+        String result="";
         Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(WifiEntity.class);
         c.addOrder(Order.desc("id"));
         c.setMaxResults(1);
         List<WifiEntity> queryResult = c.list();
         if(queryResult.size()>0){
-            return queryResult.get(0).getPassword();
+            result= queryResult.get(0).getPassword();
         }
-        return "";
+        if(encry)
+        {
+            result=EncryString(result);
+        }
+        return result;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public String uploadWifiPsw(@FormParam("date") String date, @FormParam("pwd") String pwd) throws UnsupportedEncodingException {
+    public String uploadWifiPsw(@FormParam("date") String date, @FormParam("pwd") String pwd,@FormParam("encry") boolean encry) throws UnsupportedEncodingException {
 
-        date=DeEncryString(date);
-        pwd=DeEncryString(pwd);
+        if(encry) {
+            date = DeEncryString(date);
+            pwd = DeEncryString(pwd);
+        }
         WifiEntity entity = new WifiEntity();
 
         entity.setWifidates(date);
@@ -64,6 +71,13 @@ public class MotGuest {
         }
         return "Success";
 
+    }
+    private static String EncryString(String s ) throws UnsupportedEncodingException {
+        byte[] data= s.getBytes("ASCII");
+        for (int i=0;i<data.length;i++) {
+            data[i]=(byte)(data[i]+1);
+        }
+        return new String(data);
     }
     private static String DeEncryString(String s) throws UnsupportedEncodingException {
         byte[] data= s.getBytes("ASCII");
