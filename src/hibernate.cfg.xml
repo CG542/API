@@ -4,12 +4,27 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://yxzhm.com:3306/MotGuest</property>
+        <property name="connection.url">jdbc:mysql://yxzhm.com:3306/DP</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password"></property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password">Aa123456</property>
+
         <mapping class="com.yxzhm.motguest.WifiEntity"/>
         <mapping resource="com/yxzhm/motguest/WifiEntity.hbm.xml"/>
+
+
+        <mapping resource="com/mot/dp/entities/DpEntity.hbm.xml"/>
+        <mapping class="com.mot.dp.entities.DpEntity"/>
+        <mapping resource="com/mot/dp/entities/SettingEntity.hbm.xml"/>
+        <mapping class="com.mot.dp.entities.SettingEntity"/>
+        <mapping resource="com/mot/dp/entities/SettingHistoryEntity.hbm.xml"/>
+        <mapping class="com.mot.dp.entities.SettingHistoryEntity"/>
+        <mapping resource="com/mot/dp/entities/UserEntity.hbm.xml"/>
+        <mapping class="com.mot.dp.entities.UserEntity"/>
+        <mapping resource="com/mot/dp/entities/DpStatusEntity.hbm.xml"/>
+        <mapping class="com.mot.dp.entities.DpStatusEntity"/>
+
+
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

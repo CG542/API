@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.mot.dp.entities.SettingHistoryEntity" table="SettingHistory" schema="DP">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+        </id>
+        <property name="settingid">
+            <column name="settingid" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="dpid">
+            <column name="dpid" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="deploied">
+            <column name="deploied" sql-type="bit(1)" not-null="true"/>
+        </property>
+        <property name="requesttime">
+            <column name="requesttime" sql-type="varchar(45)" length="45" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
