@@ -66,7 +66,7 @@ public class EndPoints {
                                @FormParam("password") String password,
                                @FormParam("status") String status) {
 
-        return String.valueOf(dp.DPExist(u,dpName));
+        return "";
     }
 
     @GET
@@ -76,7 +76,36 @@ public class EndPoints {
                                  @QueryParam("password") String password,
                                  @QueryParam("dpname") String dpName) {
 
-        return String.valueOf(dp.DPExist(u,dpName));
+        return "";
+    }
+
+    @POST
+    @Path("/UploadSetting")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String uploadSetting(@FormParam("loginname") String loginname,
+                                @FormParam("password") String password,
+                                @FormParam("profilename") String profilename,
+                                @FormParam("setting") String setting){
+        return "";
+    }
+
+    @POST
+    @Path("/SetDPConfig")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String setDPConfig(@FormParam("loginname") String loginname,
+                              @FormParam("password") String password,
+                              @FormParam("dpname") String dpname,
+                              @FormParam("profilename") String profilename){
+        return "";
+    }
+
+    @GET
+    @Path("/GetDPConfig")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getDPConfig(@FormParam("loginname") String loginname,
+                              @FormParam("password") String password,
+                              @FormParam("dpname") String dpname){
+        return "";
     }
 
 

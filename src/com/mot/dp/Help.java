@@ -78,7 +78,7 @@ public class Help {
         sb.append(getH1("Upload DP Setting"));
         sb.append(getH3(urlBase+"UploadSetting"));
         sb.append(getH3("Method=POST"));
-        sb.append(getH3("Parameters loginname={0}&password={1}&settingprofilename={2}&setting={3}"));
+        sb.append(getH3("Parameters loginname={0}&password={1}&profilename={2}&setting={3}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
     }
@@ -88,7 +88,7 @@ public class Help {
         sb.append(getH1("Set DP Config"));
         sb.append(getH3(urlBase+"SetDPConfig"));
         sb.append(getH3("Method=POST"));
-        sb.append(getH3("Parameters loginname={0}&password={1}&dpname={2}&settingprofilename={3}"));
+        sb.append(getH3("Parameters loginname={0}&password={1}&dpname={2}&profilename={3}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
     }
