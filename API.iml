@@ -29,9 +29,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="Tomcat 8.0.30" level="application_server_libraries" />
-    <orderEntry type="library" name="Hibernate 4.2.2-4.2.2" level="project" />
+    <orderEntry type="library" exported="" name="Hibernate 4.2.2-4.2.2" level="project" />
     <orderEntry type="library" exported="" name="Jersey" level="project" />
-    <orderEntry type="library" name="Jersey" level="project" />
-    <orderEntry type="library" name="Jersey" level="project" />
   </component>
 </module>

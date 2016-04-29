@@ -7,6 +7,7 @@
     <class name="com.mot.dp.entities.SettingHistoryEntity" table="SettingHistory" schema="DP">
         <id name="id">
             <column name="id" sql-type="int(11)"/>
+            <generator class="identity"/>
         </id>
         <property name="settingid">
             <column name="settingid" sql-type="int(11)" not-null="true"/>
