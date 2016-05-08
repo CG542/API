@@ -20,7 +20,7 @@ public class DPSetting {
         se.setProfilename(name);
         se.setSetting(setting);
 
-        Session session = com.yxzhm.hibernate.HibernateUtil.getSession();
+        Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(SettingEntity.class);
         c.add(Restrictions.eq("userid", se.getUserid()));
         c.add(Restrictions.eq("profilename", se.getProfilename()));
