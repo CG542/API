@@ -1,12 +1,15 @@
 package com.mot.dp.entities;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by mot on 4/13/16.
  */
 @Entity
 @Table(name = "DP", schema = "DP", catalog = "")
+@XmlRootElement(name="DP")
 public class DpEntity {
     private int id;
     private String name;
@@ -24,6 +27,7 @@ public class DpEntity {
 
     @Basic
     @Column(name = "name", nullable = true, length = 45)
+    @XmlElement
     public String getName() {
         return name;
     }

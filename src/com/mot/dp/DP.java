@@ -17,6 +17,7 @@ public class DP {
 
 
     private static List<DpEntity> dpCache=new ArrayList<>();
+
     public DpEntity getDPEntity(User u,String dpName){
         int userID=u.getUserID();
 
@@ -28,7 +29,7 @@ public class DP {
         }
 
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(UserEntity.class);
+        Criteria c = session.createCriteria(DpEntity.class);
         c.add(Restrictions.eq("userid", userID));
         c.add(Restrictions.eq("name", dpName));
 
@@ -40,6 +41,21 @@ public class DP {
         return null;
     }
 
+    public List<DpEntity> getAllDP(User u){
+        Session session = HibernateUtil.getSession();
+        Criteria c = session.createCriteria(DpEntity.class);
+        c.add(Restrictions.eq("userid", u.getUserID()));
+
+        List<DpEntity> queryResult = c.list();
+
+        for(DpEntity dp :queryResult){
+            if(!dpCache.contains(dp)){
+                dpCache.add(dp);
+            }
+        }
+
+        return queryResult;
+    }
 
     public boolean binding(User u, String dpName){
         if(DPExist(u,dpName))
@@ -68,7 +84,9 @@ public class DP {
         return true;
     }
 
+
     public boolean DPExist(User u,String dpName){
+
         return getDPEntity(u,dpName)!=null;
     }
 }

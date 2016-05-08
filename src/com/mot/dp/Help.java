@@ -10,15 +10,9 @@ public class Help {
         sb.append("<head></head>");
         sb.append("<body>");
 
-        buildUserValidateContext(sb);
+        buildUserContext(sb);
 
-        buildDPBindingContext(sb);
-        buildDPUnBindingContext(sb);
-        buildDPNameVerificationContext(sb);
-
-        buildUploadSettingProfileContext(sb);
-        buildSetDPConfigContext(sb);
-        buildGetDPConfigContext(sb);
+        buildSettingContext(sb);
 
         buildReportDPStatusContext(sb);
         buildDPStatusContext(sb);
@@ -30,70 +24,67 @@ public class Help {
 
     static String urlBase="http://yxzhm.com/api/DP/";
 
-    private static void buildUserValidateContext(StringBuilder sb){
+    private static void buildUserContext(StringBuilder sb){
         sb.append(getH1("User Verification"));
         sb.append(getH3(urlBase+"Login"));
         sb.append(getH3("Method=POST"));
         sb.append(getH3("Parameters loginname={0}&password={1}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
-    }
 
-    private static void buildGetAllDPNameContext(StringBuilder sb){
         sb.append(getH1("Get All DP Names"));
         sb.append(getH3(urlBase+"GetAllDPNames"));
         sb.append(getH3("Method=POST"));
         sb.append(getH3("Parameters loginname={0}&password={1}"));
         sb.append(getH3("Return json"));
         sb.append("<p/>");
-    }
 
-    private static void buildDPBindingContext(StringBuilder sb){
         sb.append(getH1("Binding DP"));
         sb.append(getH3(urlBase+"Binding"));
         sb.append(getH3("Method=POST"));
         sb.append(getH3("Parameters loginname={0}&password={1}&dpname={2}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
-    }
-    private static void buildDPUnBindingContext(StringBuilder sb){
+
         sb.append(getH1("UnBinding DP"));
         sb.append(getH3(urlBase+"UnBinding"));
         sb.append(getH3("Method=POST"));
         sb.append(getH3("Parameters loginname={0}&password={1}&dpname={2}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
-    }
 
-    private static void buildDPNameVerificationContext(StringBuilder sb){
         sb.append(getH1("Verify DP Name Exist or not"));
         sb.append(getH3(urlBase+"CheckDPExist"));
-        sb.append(getH3("Method=POST"));
+        sb.append(getH3("Method=Get"));
         sb.append(getH3("Parameters loginname={0}&password={1}&dpname={2}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
     }
 
-    private static void buildUploadSettingProfileContext(StringBuilder sb){
+
+    private static void buildSettingContext(StringBuilder sb){
         sb.append(getH1("Upload DP Setting"));
         sb.append(getH3(urlBase+"UploadSetting"));
         sb.append(getH3("Method=POST"));
         sb.append(getH3("Parameters loginname={0}&password={1}&profilename={2}&setting={3}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
-    }
+
+        sb.append(getH1("Get All Setting"));
+        sb.append(getH3(urlBase+"GetAllSettings"));
+        sb.append(getH3("Method=GET"));
+        sb.append(getH3("Parameters loginname={0}&password={1}"));
+        sb.append(getH3("Return Json"));
+        sb.append("<p/>");
 
 
-    private static void buildSetDPConfigContext(StringBuilder sb){
         sb.append(getH1("Set DP Config"));
         sb.append(getH3(urlBase+"SetDPConfig"));
         sb.append(getH3("Method=POST"));
         sb.append(getH3("Parameters loginname={0}&password={1}&dpname={2}&profilename={3}"));
         sb.append(getH3("Return boolean"));
         sb.append("<p/>");
-    }
 
-    private static void buildGetDPConfigContext(StringBuilder sb){
         sb.append(getH1("Get DP Config"));
         sb.append(getH3(urlBase+"GetDPConfig"));
         sb.append(getH3("Method=Get"));
@@ -101,6 +92,9 @@ public class Help {
         sb.append(getH3("Return json"));
         sb.append("<p/>");
     }
+
+
+
 
     private static void buildDPStatusContext(StringBuilder sb){
         sb.append(getH1("Query DP Status"));
