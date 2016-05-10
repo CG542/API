@@ -16,17 +16,8 @@ import java.util.List;
 public class DP {
 
 
-    private static List<DpEntity> dpCache=new ArrayList<>();
-
     public DpEntity getDPEntity(User u,String dpName){
         int userID=u.getUserID();
-
-        DpEntity temp=new DpEntity();
-        temp.setUserid(userID);
-        temp.setName(dpName);
-        if(dpCache.contains(temp)){
-            return dpCache.get(dpCache.indexOf(temp));
-        }
 
         Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(DpEntity.class);
@@ -35,7 +26,7 @@ public class DP {
 
         List<DpEntity> queryResult = c.list();
         if(queryResult.size()>0){
-            dpCache.add(queryResult.get(0));
+
             return queryResult.get(0);
         }
         return null;
@@ -47,12 +38,6 @@ public class DP {
         c.add(Restrictions.eq("userid", u.getUserID()));
 
         List<DpEntity> queryResult = c.list();
-
-        for(DpEntity dp :queryResult){
-            if(!dpCache.contains(dp)){
-                dpCache.add(dp);
-            }
-        }
 
         return queryResult;
     }

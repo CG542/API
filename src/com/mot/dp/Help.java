@@ -14,9 +14,6 @@ public class Help {
 
         buildSettingContext(sb);
 
-        buildReportDPStatusContext(sb);
-        buildDPStatusContext(sb);
-
 
         sb.append("</body>");
         return sb.toString();

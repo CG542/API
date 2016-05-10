@@ -20,16 +20,10 @@ public class User {
         this.psw=psw;
     }
 
-    private static List<UserEntity> userCache=new ArrayList<>();
+
     public UserEntity getEntity(){
 
-        UserEntity temp=new UserEntity();
-        temp.setName(name);
-        temp.setPassword(psw);
 
-        if(userCache.contains(temp)){
-            return userCache.get(userCache.indexOf(temp));
-        }
 
         Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(UserEntity.class);
@@ -38,7 +32,6 @@ public class User {
 
         List<UserEntity> queryResult = c.list();
         if(queryResult.size()>0){
-            userCache.add(queryResult.get(0));
             return queryResult.get(0);
         }
         return null;
