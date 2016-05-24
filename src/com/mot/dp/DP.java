@@ -5,6 +5,7 @@ import com.mot.dp.entities.UserEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class DP {
         Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(DpEntity.class);
         c.add(Restrictions.eq("userid", u.getUserID()));
-
+        c.addOrder(Order.asc("name"));
         List<DpEntity> queryResult = c.list();
 
         return queryResult;

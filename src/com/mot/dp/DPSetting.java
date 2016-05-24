@@ -51,7 +51,7 @@ public class DPSetting {
         Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(SettingEntity.class);
         c.add(Restrictions.eq("userid", u.getUserID()));
-
+        c.addOrder(Order.asc("profilename"));
         List<SettingEntity> queryResult = c.list();
         return queryResult;
     }
