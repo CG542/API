@@ -15,15 +15,15 @@ import java.util.List;
  */
 public class DP {
 
-    static List<DpEntity> dpCache = new ArrayList<>();
+    //static List<DpEntity> dpCache = new ArrayList<>();
     public DpEntity getDPEntity(User u,String dpName){
         int userID=u.getUserID();
 
-        for (DpEntity e : dpCache){
-            if(e.getName().equals(dpName)&&e.getUserid().equals(userID)){
-                return e;
-            }
-        }
+//        for (DpEntity e : dpCache){
+//            if(e.getName().equals(dpName)&&e.getUserid().equals(userID)){
+//                return e;
+//            }
+//        }
         Session session = HibernateUtil.getSession();
         try {
             Criteria c = session.createCriteria(DpEntity.class);
@@ -33,7 +33,7 @@ public class DP {
             List<DpEntity> queryResult = c.list();
 
             if (queryResult.size() > 0) {
-                dpCache.add(queryResult.get(0));
+       //         dpCache.add(queryResult.get(0));
                 return queryResult.get(0);
             }
             return null;
@@ -88,7 +88,7 @@ public class DP {
             Transaction t = session.beginTransaction();
             session.delete(entity);
             t.commit();
-            dpCache.clear();
+            //dpCache.clear();
         }
         finally {
             session.close();
