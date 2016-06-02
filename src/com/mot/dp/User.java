@@ -31,17 +31,22 @@ public class User {
 
 
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(UserEntity.class);
-        c.add(Restrictions.eq("name", name));
-        c.add(Restrictions.eq("password", psw));
+        try {
+            Criteria c = session.createCriteria(UserEntity.class);
+            c.add(Restrictions.eq("name", name));
+            c.add(Restrictions.eq("password", psw));
 
-        List<UserEntity> queryResult = c.list();
-        session.close();
-        if(queryResult.size()>0){
-            userCache.add(queryResult.get(0));
-            return queryResult.get(0);
+            List<UserEntity> queryResult = c.list();
+
+            if (queryResult.size() > 0) {
+                userCache.add(queryResult.get(0));
+                return queryResult.get(0);
+            }
+            return null;
         }
-        return null;
+        finally {
+            session.close();
+        }
     }
 
     public int getUserID(){

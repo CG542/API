@@ -26,64 +26,86 @@ public class DPSetting {
         se.setSetting(setting);
 
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(SettingEntity.class);
-        c.add(Restrictions.eq("userid", se.getUserid()));
-        c.add(Restrictions.eq("profilename", se.getProfilename()));
+        try {
+            Criteria c = session.createCriteria(SettingEntity.class);
+            c.add(Restrictions.eq("userid", se.getUserid()));
+            c.add(Restrictions.eq("profilename", se.getProfilename()));
 
 
-        List<SettingEntity> queryResult = c.list();
-        if (queryResult.size() > 0) {
-            Transaction t = session.beginTransaction();
-            for (SettingEntity s : queryResult) {
-                session.delete(s);
+            List<SettingEntity> queryResult = c.list();
+            if (queryResult.size() > 0) {
+                Transaction t = session.beginTransaction();
+                for (SettingEntity s : queryResult) {
+                    session.delete(s);
+                }
+                t.commit();
             }
+
+            Transaction t = session.beginTransaction();
+            session.save(se);
             t.commit();
+
+            return true;
+        }
+        finally {
+            session.close();
         }
 
-        Transaction t = session.beginTransaction();
-        session.save(se);
-        t.commit();
-        session.close();
-        return true;
     }
 
     public List<SettingEntity> getAllSettins(User u) {
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(SettingEntity.class);
-        c.add(Restrictions.eq("userid", u.getUserID()));
-        c.addOrder(Order.asc("profilename"));
-        List<SettingEntity> queryResult = c.list();
-        session.close();
-        return queryResult;
+        try {
+            Criteria c = session.createCriteria(SettingEntity.class);
+            c.add(Restrictions.eq("userid", u.getUserID()));
+            c.addOrder(Order.asc("profilename"));
+            List<SettingEntity> queryResult = c.list();
+
+            return queryResult;
+        }
+        finally {
+            session.close();
+        }
     }
 
     private SettingEntity querySetting(User u, String profileName) {
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(SettingEntity.class);
-        c.add(Restrictions.eq("userid", u.getUserID()));
-        c.add(Restrictions.eq("profilename", profileName));
+        try {
+            Criteria c = session.createCriteria(SettingEntity.class);
+            c.add(Restrictions.eq("userid", u.getUserID()));
+            c.add(Restrictions.eq("profilename", profileName));
 
 
-        List<SettingEntity> queryResult = c.list();
-        session.close();
-        if (queryResult.size() > 0) {
-            return queryResult.get(0);
-        } else {
-            return null;
+            List<SettingEntity> queryResult = c.list();
+
+            if (queryResult.size() > 0) {
+                return queryResult.get(0);
+            } else {
+                return null;
+            }
         }
+        finally {
+            session.close();
+        }
+
     }
 
     private SettingEntity querySetting(int id) {
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(SettingEntity.class);
-        c.add(Restrictions.eq("id", id));
+        try {
+            Criteria c = session.createCriteria(SettingEntity.class);
+            c.add(Restrictions.eq("id", id));
 
-        List<SettingEntity> queryResult = c.list();
-        session.close();
-        if (queryResult.size() > 0) {
-            return queryResult.get(0);
-        } else {
-            return null;
+            List<SettingEntity> queryResult = c.list();
+
+            if (queryResult.size() > 0) {
+                return queryResult.get(0);
+            } else {
+                return null;
+            }
+        }
+        finally {
+            session.close();
         }
     }
 
@@ -100,48 +122,57 @@ public class DPSetting {
         }
 
         Session session = HibernateUtil.getSession();
-        session.getTransaction().begin();
+        try {
+            session.getTransaction().begin();
 
-        SettingHistoryEntity she = new SettingHistoryEntity();
-        she.setDeploied(false);
-        she.setDpid(dp.getId());
-        she.setRequesttime(TimeUtil.getCurrentTime());
-        she.setSettingid(setting.getId());
+            SettingHistoryEntity she = new SettingHistoryEntity();
+            she.setDeploied(false);
+            she.setDpid(dp.getId());
+            she.setRequesttime(TimeUtil.getCurrentTime());
+            she.setSettingid(setting.getId());
 
-        session.save(she);
-        int n = she.getId();
-        session.getTransaction().commit();
-        session.close();
-        return she.getId();
+            session.save(she);
+            int n = she.getId();
+            session.getTransaction().commit();
+            return she.getId();
+        }
+        finally {
+            session.close();
+        }
     }
 
 
     public String getDPSetting(User u, String dpName) {
-        DpEntity dpEntity = new DP().getDPEntity(u, dpName);
-        if (dpEntity != null) {
-            int dpID = dpEntity.getId();
-            Session session = HibernateUtil.getSession();
-            Criteria c = session.createCriteria(SettingHistoryEntity.class);
-            c.add(Restrictions.eq("dpid", dpID));
-            // c.add(Restrictions.eq("deploied",false));
-            c.addOrder(Order.desc("requesttime"));
-            c.setMaxResults(1);
+        Session session = HibernateUtil.getSession();
+        try {
+            DpEntity dpEntity = new DP().getDPEntity(u, dpName);
+            if (dpEntity != null) {
+                int dpID = dpEntity.getId();
 
-            List<SettingHistoryEntity> queryResult = c.list();
-            if (queryResult.size() > 0) {
+                Criteria c = session.createCriteria(SettingHistoryEntity.class);
+                c.add(Restrictions.eq("dpid", dpID));
+                // c.add(Restrictions.eq("deploied",false));
+                c.addOrder(Order.desc("requesttime"));
+                c.setMaxResults(1);
 
-                SettingHistoryEntity history = queryResult.get(0);
-                if (!history.getDeploied()) {
-                    history.setDeploied(true);
-                    Transaction t = session.beginTransaction();
-                    session.save(history);
-                    t.commit();
+                List<SettingHistoryEntity> queryResult = c.list();
+                if (queryResult.size() > 0) {
 
-                    int setID = history.getSettingid();
-                    session.close();
-                    return querySetting(setID).getSetting();
+                    SettingHistoryEntity history = queryResult.get(0);
+                    if (!history.getDeploied()) {
+                        history.setDeploied(true);
+                        Transaction t = session.beginTransaction();
+                        session.save(history);
+                        t.commit();
+
+                        int setID = history.getSettingid();
+                        return querySetting(setID).getSetting();
+                    }
                 }
             }
+        }
+        finally {
+            session.close();
         }
 
         return "";

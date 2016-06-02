@@ -25,27 +25,36 @@ public class DP {
             }
         }
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(DpEntity.class);
-        c.add(Restrictions.eq("userid", userID));
-        c.add(Restrictions.eq("name", dpName));
+        try {
+            Criteria c = session.createCriteria(DpEntity.class);
+            c.add(Restrictions.eq("userid", userID));
+            c.add(Restrictions.eq("name", dpName));
 
-        List<DpEntity> queryResult = c.list();
-        session.close();
-        if(queryResult.size()>0){
-            dpCache.add(queryResult.get(0));
-            return queryResult.get(0);
+            List<DpEntity> queryResult = c.list();
+
+            if (queryResult.size() > 0) {
+                dpCache.add(queryResult.get(0));
+                return queryResult.get(0);
+            }
+            return null;
         }
-        return null;
+        finally {
+            session.close();
+        }
     }
 
     public List<DpEntity> getAllDP(User u){
         Session session = HibernateUtil.getSession();
-        Criteria c = session.createCriteria(DpEntity.class);
-        c.add(Restrictions.eq("userid", u.getUserID()));
-        c.addOrder(Order.asc("name"));
-        List<DpEntity> queryResult = c.list();
-        session.close();
-        return queryResult;
+        try {
+            Criteria c = session.createCriteria(DpEntity.class);
+            c.add(Restrictions.eq("userid", u.getUserID()));
+            c.addOrder(Order.asc("name"));
+            List<DpEntity> queryResult = c.list();
+            return queryResult;
+        }
+        finally {
+            session.close();
+        }
     }
 
     public boolean binding(User u, String dpName){
@@ -58,10 +67,15 @@ public class DP {
         entity.setName(dpName);
 
         Session session = HibernateUtil.getSession();
-        Transaction t = session.beginTransaction();
-        session.save(entity);
-        t.commit();
-        session.close();
+        try {
+            Transaction t = session.beginTransaction();
+            session.save(entity);
+            t.commit();
+
+        }
+        finally {
+            session.close();
+        }
         return true;
     }
 
@@ -70,11 +84,16 @@ public class DP {
             return false;
         DpEntity entity=getDPEntity(u,dpName);
         Session session = HibernateUtil.getSession();
-        Transaction t = session.beginTransaction();
-        session.delete(entity);
-        t.commit();
-        dpCache.clear();
-        session.close();
+        try {
+            Transaction t = session.beginTransaction();
+            session.delete(entity);
+            t.commit();
+            dpCache.clear();
+        }
+        finally {
+            session.close();
+        }
+
         return true;
     }
 
