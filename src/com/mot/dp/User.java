@@ -20,9 +20,14 @@ public class User {
         this.psw=psw;
     }
 
-
+    static List<UserEntity> userCache = new ArrayList<>();
     public UserEntity getEntity(){
 
+        for(UserEntity e : userCache){
+            if(e.getName().equals(this.name) && e.getPassword().equals(this.psw)){
+                return e;
+            }
+        }
 
 
         Session session = HibernateUtil.getSession();
@@ -31,7 +36,9 @@ public class User {
         c.add(Restrictions.eq("password", psw));
 
         List<UserEntity> queryResult = c.list();
+        session.close();
         if(queryResult.size()>0){
+            userCache.add(queryResult.get(0));
             return queryResult.get(0);
         }
         return null;

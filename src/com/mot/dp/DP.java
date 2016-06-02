@@ -1,7 +1,6 @@
 package com.mot.dp;
 
 import com.mot.dp.entities.DpEntity;
-import com.mot.dp.entities.UserEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,18 +15,24 @@ import java.util.List;
  */
 public class DP {
 
-
+    static List<DpEntity> dpCache = new ArrayList<>();
     public DpEntity getDPEntity(User u,String dpName){
         int userID=u.getUserID();
 
+        for (DpEntity e : dpCache){
+            if(e.getName().equals(dpName)&&e.getUserid().equals(userID)){
+                return e;
+            }
+        }
         Session session = HibernateUtil.getSession();
         Criteria c = session.createCriteria(DpEntity.class);
         c.add(Restrictions.eq("userid", userID));
         c.add(Restrictions.eq("name", dpName));
 
         List<DpEntity> queryResult = c.list();
+        session.close();
         if(queryResult.size()>0){
-
+            dpCache.add(queryResult.get(0));
             return queryResult.get(0);
         }
         return null;
@@ -39,7 +44,7 @@ public class DP {
         c.add(Restrictions.eq("userid", u.getUserID()));
         c.addOrder(Order.asc("name"));
         List<DpEntity> queryResult = c.list();
-
+        session.close();
         return queryResult;
     }
 
@@ -56,6 +61,7 @@ public class DP {
         Transaction t = session.beginTransaction();
         session.save(entity);
         t.commit();
+        session.close();
         return true;
     }
 
@@ -67,6 +73,8 @@ public class DP {
         Transaction t = session.beginTransaction();
         session.delete(entity);
         t.commit();
+        dpCache.clear();
+        session.close();
         return true;
     }
 

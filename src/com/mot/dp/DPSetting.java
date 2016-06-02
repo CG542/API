@@ -43,7 +43,7 @@ public class DPSetting {
         Transaction t = session.beginTransaction();
         session.save(se);
         t.commit();
-
+        session.close();
         return true;
     }
 
@@ -53,6 +53,7 @@ public class DPSetting {
         c.add(Restrictions.eq("userid", u.getUserID()));
         c.addOrder(Order.asc("profilename"));
         List<SettingEntity> queryResult = c.list();
+        session.close();
         return queryResult;
     }
 
@@ -64,6 +65,7 @@ public class DPSetting {
 
 
         List<SettingEntity> queryResult = c.list();
+        session.close();
         if (queryResult.size() > 0) {
             return queryResult.get(0);
         } else {
@@ -77,6 +79,7 @@ public class DPSetting {
         c.add(Restrictions.eq("id", id));
 
         List<SettingEntity> queryResult = c.list();
+        session.close();
         if (queryResult.size() > 0) {
             return queryResult.get(0);
         } else {
@@ -108,6 +111,7 @@ public class DPSetting {
         session.save(she);
         int n = she.getId();
         session.getTransaction().commit();
+        session.close();
         return she.getId();
     }
 
@@ -134,6 +138,7 @@ public class DPSetting {
                     t.commit();
 
                     int setID = history.getSettingid();
+                    session.close();
                     return querySetting(setID).getSetting();
                 }
             }
