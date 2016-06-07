@@ -12,6 +12,7 @@ public class DpStatusEntity {
     private Integer dpid;
     private String status;
     private String reporttime;
+    private String type;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -51,6 +52,16 @@ public class DpStatusEntity {
 
     public void setReporttime(String reporttime) {
         this.reporttime = reporttime;
+    }
+
+    @Basic
+    @Column(name = "type", nullable = true, length = 20)
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

@@ -17,5 +17,8 @@
         <property name="reporttime">
             <column name="reporttime" sql-type="varchar(45)" length="45" not-null="true"/>
         </property>
+        <property name="type">
+            <column name="type" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

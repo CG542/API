@@ -1,12 +1,14 @@
 package com.mot.dp;
 
 import com.mot.dp.entities.DpEntity;
+import com.mot.dp.entities.DpStatusEntity;
 import com.mot.dp.entities.SettingEntity;
 
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,9 +63,9 @@ public class EndPoints {
     @Path("/GetAllDPNames")
     @Produces(MediaType.APPLICATION_JSON)
     public List<DpEntity> getAllDPNames(@QueryParam("loginname") String loginname,
-                                @QueryParam("password") String password){
-        User u=new User(loginname,password);
-        List<DpEntity> result=new DP().getAllDP(u);
+                                        @QueryParam("password") String password) {
+        User u = new User(loginname, password);
+        List<DpEntity> result = new DP().getAllDP(u);
         return result;
 
     }
@@ -85,9 +87,9 @@ public class EndPoints {
     @Path("/GetAllSettings")
     @Produces(MediaType.APPLICATION_JSON)
     public List<SettingEntity> getAllSettings(@QueryParam("loginname") String loginname,
-                                             @QueryParam("password") String password){
-        User u=new User(loginname,password);
-        List<SettingEntity> result=new DPSetting().getAllSettins(u);
+                                              @QueryParam("password") String password) {
+        User u = new User(loginname, password);
+        List<SettingEntity> result = new DPSetting().getAllSettins(u);
         return result;
 
     }
@@ -116,27 +118,42 @@ public class EndPoints {
         return String.valueOf(dpsetting.getDPSetting(u, dpname));
     }
 
-    /*
-                  @POST
-                  @Path("/ReportDPStatus")
-                  @Consumes(MediaType.APPLICATION_JSON)
-                  public String reportDPStatus(@FormParam("loginname") String loginname,
-                                               @FormParam("password") String password,
-                                               @FormParam("status") String status) {
 
-                      return "";
-                  }
+    @POST
+    @Path("/ReportDPStatus")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String reportDPStatus(@FormParam("loginname") String loginname,
+                                 @FormParam("password") String password,
+                                 @FormParam("dpname") String dpname,
+                                 @FormParam("type") String type,
+                                 @FormParam("status") String status) {
+        User u = new User(loginname, password);
+        DP dp = new DP();
+        int dpID = dp.getDPEntity(u, dpname).getId();
+        return "";
+    }
 
-                  @GET
-                  @Path("/QueryDPStatus")
-                  @Produces(MediaType.TEXT_PLAIN)
-                  public String queryDPStatus(@QueryParam("loginname") String loginname,
-                                              @QueryParam("password") String password,
-                                              @QueryParam("dpname") String dpName) {
+    @GET
+    @Path("/QueryDPStatus")
+    @Produces(MediaType.TEXT_PLAIN)
+    public List<DpStatusEntity>  queryDPStatus(@QueryParam("loginname") String loginname,
+                                @QueryParam("password") String password,
+                                @QueryParam("dpname") String dpname,
+                                @QueryParam("time") String time) {
+        User u = new User(loginname, password);
+        DP dp = new DP();
+        DPStatus status = new DPStatus();
+        List<DpStatusEntity> result = new ArrayList<>();
+        if(dp.DPExist(u,dpname)){
+            status.getStatus(u,dp.getDPEntity(u,dpname).getId(),time);
+        }else{
+            status.getStatus(u,0,time);
+        }
 
-                      return "";
-                  }
-               */
+
+        return result;
+    }
+
     @GET
     @Path("/Help")
     @Produces("text/html")
