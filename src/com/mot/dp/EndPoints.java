@@ -141,7 +141,7 @@ public class EndPoints {
 
     @GET
     @Path("/QueryDPStatus")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<DpStatusEntity>  queryDPStatus(@QueryParam("loginname") String loginname,
                                 @QueryParam("password") String password,
                                 @QueryParam("dpname") String dpname,

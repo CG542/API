@@ -41,14 +41,16 @@ public class DPStatus {
         Session session=null;
         try {
             session = HibernateUtil.getSession();
+            DP dp =new DP();
+            List<DpEntity> alldp = dp.getAllDP(u);
             Criteria c = session.createCriteria(DpStatusEntity.class);
             if(dpID>0){
                 c.add(Restrictions.eq("dpid", dpID));
             }
             else{
-                DP dp = new DP();
+
                 Disjunction or = Restrictions.disjunction();
-                for(DpEntity dpe :dp.getAllDP(u)){
+                for(DpEntity dpe : alldp){
                    or.add(Restrictions.eq("dpid",dpe.getId()));
                 }
                 c.add(or);
@@ -58,7 +60,14 @@ public class DPStatus {
 
 
             List<DpStatusEntity> queryResult = c.list();
-
+            for (DpStatusEntity e : queryResult){
+                for (DpEntity d : alldp){
+                    if(d.getId()==e.getDpid()){
+                        e.setDPName(d.getName());
+                        break;
+                    }
+                }
+            }
             return queryResult;
         }
         catch (Exception ex){
