@@ -5,6 +5,8 @@ import com.mot.dp.entities.DpStatusEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
@@ -36,17 +38,20 @@ public class DPStatus {
     }
 
     public List<DpStatusEntity> getStatus(User u, int dpID, String time){
-        Session session = HibernateUtil.getSession();
+        Session session=null;
         try {
+            session = HibernateUtil.getSession();
             Criteria c = session.createCriteria(DpStatusEntity.class);
             if(dpID>0){
-            c.add(Restrictions.eq("dpid", dpID));
+                c.add(Restrictions.eq("dpid", dpID));
             }
             else{
                 DP dp = new DP();
+                Disjunction or = Restrictions.disjunction();
                 for(DpEntity dpe :dp.getAllDP(u)){
-                   c.add(Restrictions.eq("dpid",dpe.getId()));
+                   or.add(Restrictions.eq("dpid",dpe.getId()));
                 }
+                c.add(or);
             }
             //c.add(Restrictions.eq("reporttime", time));
             c.add(Restrictions.ge("reporttime", time));
@@ -56,8 +61,13 @@ public class DPStatus {
 
             return queryResult;
         }
+        catch (Exception ex){
+            System.out.print(ex.getMessage());
+            return null;
+        }
         finally {
-            session.close();
+            if(session!=null)
+                session.close();
         }
     }
 }

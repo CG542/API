@@ -129,8 +129,14 @@ public class EndPoints {
                                  @FormParam("status") String status) {
         User u = new User(loginname, password);
         DP dp = new DP();
-        int dpID = dp.getDPEntity(u, dpname).getId();
-        return "";
+        if(dp.DPExist(u,dpname)) {
+            int dpID = dp.getDPEntity(u, dpname).getId();
+            DPStatus dpstatus = new DPStatus();
+            return String.valueOf(dpstatus.uploadStatus(u, dpID, status, type));
+        }
+        else{
+            return "false";
+        }
     }
 
     @GET
@@ -144,10 +150,10 @@ public class EndPoints {
         DP dp = new DP();
         DPStatus status = new DPStatus();
         List<DpStatusEntity> result = new ArrayList<>();
-        if(dp.DPExist(u,dpname)){
-            status.getStatus(u,dp.getDPEntity(u,dpname).getId(),time);
+        if(!dpname.isEmpty()&&dp.DPExist(u,dpname)){
+            result=status.getStatus(u,dp.getDPEntity(u,dpname).getId(),time);
         }else{
-            status.getStatus(u,0,time);
+            result=status.getStatus(u,0,time);
         }
 
 
