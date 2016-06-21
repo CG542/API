@@ -144,19 +144,10 @@ public class EndPoints {
     @Produces(MediaType.APPLICATION_JSON)
     public List<DpStatusEntity>  queryDPStatus(@QueryParam("loginname") String loginname,
                                 @QueryParam("password") String password,
-                                @QueryParam("dpname") String dpname,
                                 @QueryParam("time") String time) {
         User u = new User(loginname, password);
-        DP dp = new DP();
         DPStatus status = new DPStatus();
-        List<DpStatusEntity> result = new ArrayList<>();
-        if(!dpname.isEmpty()&&dp.DPExist(u,dpname)){
-            result=status.getStatus(u,dp.getDPEntity(u,dpname).getId(),time);
-        }else{
-            result=status.getStatus(u,0,time);
-        }
-
-
+        List<DpStatusEntity> result=status.getStatus(u,0,time);
         return result;
     }
 
