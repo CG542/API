@@ -30,6 +30,10 @@ public class DPStatus {
             t.commit();
             return true;
         }
+        catch (Exception ex){
+            System.out.print(ex.getStackTrace());
+            return false;
+        }
         finally {
             session.close();
 
