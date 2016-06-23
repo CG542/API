@@ -41,7 +41,7 @@ public class DpStatusEntity {
     }
 
     @Basic
-    @Column(name = "status", nullable = true, length = 90)
+    @Column(name = "status", nullable = true)
     @XmlElement
     public String getStatus() {
         return status;

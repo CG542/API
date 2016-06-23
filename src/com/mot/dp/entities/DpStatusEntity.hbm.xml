@@ -12,7 +12,7 @@
             <column name="dpid" sql-type="int(11)" not-null="true"/>
         </property>
         <property name="status">
-            <column name="status" sql-type="varchar(90)" length="90" not-null="true"/>
+            <column name="status" sql-type="text" not-null="true"/>
         </property>
         <property name="reporttime">
             <column name="reporttime" sql-type="varchar(45)" length="45" not-null="true"/>
