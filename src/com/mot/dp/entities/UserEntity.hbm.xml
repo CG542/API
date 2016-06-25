@@ -7,6 +7,7 @@
     <class name="com.mot.dp.entities.UserEntity" table="User" schema="DP">
         <id name="id">
             <column name="id" sql-type="int(11)"/>
+            <generator class="identity"/>
         </id>
         <property name="name">
             <column name="name" sql-type="varchar(45)" length="45" not-null="true"/>

@@ -147,7 +147,7 @@ public class EndPoints {
                                 @QueryParam("time") String time) {
         User u = new User(loginname, password);
         DPStatus status = new DPStatus();
-        List<DpStatusEntity> result=status.getStatus(u,0,time);
+        List<DpStatusEntity> result=status.getStatus(u,time);
         return result;
     }
 
@@ -157,6 +157,13 @@ public class EndPoints {
     public String help() {
 
         return Help.getHelpContext();
+    }
+
+    @GET
+    @Path("/Reload")
+    @Produces("text/html")
+    public void reload(){
+        Cache.ReLoad();
     }
 
 }

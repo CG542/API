@@ -2,13 +2,9 @@ package com.mot.dp;
 
 import com.mot.dp.entities.DpEntity;
 import com.mot.dp.entities.DpStatusEntity;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Restrictions;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,65 +18,36 @@ public class DPStatus {
         dpStatusEntity.setStatus(status);
         dpStatusEntity.setType(type);
         dpStatusEntity.setReporttime(TimeUtil.getCurrentTime());
-        Session session = HibernateUtil.getSession();
-        try {
 
-            Transaction t = session.beginTransaction();
-            session.save(dpStatusEntity);
-            t.commit();
-            return true;
-        }
-        catch (Exception ex){
-            System.out.print(ex.getStackTrace());
-            return false;
-        }
-        finally {
-            session.close();
-
-        }
+        SQlUtil.save(dpStatusEntity);
+        Cache.getDpStatusCache().add(dpStatusEntity);
+        return true;
 
     }
 
-    public List<DpStatusEntity> getStatus(User u, int dpID, String time){
-        Session session=null;
-        try {
-            session = HibernateUtil.getSession();
-            DP dp =new DP();
-            List<DpEntity> alldp = dp.getAllDP(u);
-            Criteria c = session.createCriteria(DpStatusEntity.class);
-            if(dpID>0){
-                c.add(Restrictions.eq("dpid", dpID));
-            }
-            else{
+    public List<DpStatusEntity> getStatus(User u, String time){
 
-                Disjunction or = Restrictions.disjunction();
-                for(DpEntity dpe : alldp){
-                   or.add(Restrictions.eq("dpid",dpe.getId()));
-                }
-                c.add(or);
-            }
-            //c.add(Restrictions.eq("reporttime", time));
-            c.add(Restrictions.ge("reporttime", time));
+        DP dp =new DP();
+        List<DpEntity> alldp = dp.getAllDP(u);
 
+        List<DpStatusEntity> result = new ArrayList<>();
 
-            List<DpStatusEntity> queryResult = c.list();
-            for (DpStatusEntity e : queryResult){
-                for (DpEntity d : alldp){
-                    if(d.getId()==e.getDpid()){
-                        e.setDPName(d.getName());
-                        break;
-                    }
+        for(DpStatusEntity entity : Cache.getDpStatusCache()){
+            int dpId = entity.getDpid();
+            boolean hasThisDP = false;
+            for (DpEntity d : alldp){
+                if(d.getId()==dpId){
+                    entity.setDPName(d.getName());
+                    hasThisDP=true;
+                    break;
                 }
             }
-            return queryResult;
+            if(hasThisDP && entity.getReporttime().compareTo(time)>=0){
+                result.add(entity);
+            }
         }
-        catch (Exception ex){
-            System.out.print(ex.getMessage());
-            return null;
-        }
-        finally {
-            if(session!=null)
-                session.close();
-        }
+
+        return  result;
+
     }
 }

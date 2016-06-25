@@ -19,7 +19,7 @@ public class Help {
         return sb.toString();
     }
 
-    static String urlBase="http://yxzhm.com/api/DP/";
+    static String urlBase="http://api.yxzhm.com/DP/";
 
     private static void buildUserContext(StringBuilder sb){
         sb.append(getH1("User Verification"));
