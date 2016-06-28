@@ -30,6 +30,7 @@ public class SQlUtil {
         Session session = null;
         try {
             session = HibernateUtil.getSession();
+
             Transaction t = session.beginTransaction();
             session.delete(entity);
             t.commit();

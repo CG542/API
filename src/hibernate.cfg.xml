@@ -9,6 +9,10 @@
         <property name="connection.username">sa</property>
         <property name="connection.password">Aa123456</property>
         <property name="javax.persistence.validation.mode">none</property>
+        <property name="connection.autoReconnect">true</property>
+        <property name="connection.autoReconnectForPools">true</property>
+        <property name="connection.is-connection-validation-required">true</property>
+
         <mapping class="com.yxzhm.motguest.WifiEntity"/>
         <mapping resource="com/yxzhm/motguest/WifiEntity.hbm.xml"/>
 

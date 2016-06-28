@@ -162,8 +162,8 @@ public class EndPoints {
     @GET
     @Path("/Reload")
     @Produces("text/html")
-    public void reload(){
-        Cache.ReLoad();
+    public String reload(){
+        return Cache.ReLoad();
     }
 
 }

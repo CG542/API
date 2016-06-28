@@ -48,25 +48,32 @@ public class Cache {
 
 
 
-    private static void Load(){
+    private static String Load(){
+        StringBuilder sb = new StringBuilder();
         if(!IsLoaded){
 
             Session session = HibernateUtil.getSession();
             try {
                 Criteria c = session.createCriteria(DpEntity.class);
                 dpCache = c.list();
+                sb.append("Dp Count is "+dpCache.size());
 
                 c = session.createCriteria(UserEntity.class);
                 userCache=c.list();
+                sb.append(" User Count is "+userCache.size());
 
                 c = session.createCriteria(DpStatusEntity.class);
                 dpStatusCache=c.list();
+                sb.append(" Status Count is "+dpStatusCache.size());
 
                 c= session.createCriteria(SettingEntity.class);
                 settingCache=c.list();
+                sb.append(" Setting Count is "+settingCache.size());
 
                 c=session.createCriteria(SettingHistoryEntity.class);
                 settingHistoryCache=c.list();
+                sb.append(" History Count is "+settingHistoryCache.size());
+
 
             }
             finally {
@@ -76,11 +83,12 @@ public class Cache {
         }
 
         IsLoaded=true;
+        return sb.toString();
     }
 
-    public static void ReLoad(){
+    public static String ReLoad(){
         IsLoaded=false;
-        Load();
+        return Load();
     }
 
 
