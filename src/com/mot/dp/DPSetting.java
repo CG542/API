@@ -38,7 +38,48 @@ public class DPSetting {
 
     }
 
-    public List<SettingEntity> getAllSettins(User u) {
+    public boolean delSetting(User u, String profilename) {
+        int userID = u.getUserID();
+        SettingEntity se = new SettingEntity();
+        se.setUserid(userID);
+        se.setProfilename(profilename);
+
+        SettingEntity temp = null;
+        for (SettingEntity entity : Cache.getSettingCache()){
+            if(entity.getUserid().equals(se.getId())
+                    &&entity.getProfilename().equals(se.getProfilename())){
+                temp=entity;
+                break;
+            }
+        }
+
+
+        if(temp!=null){
+            int settingID= temp.getId();
+
+            List<SettingHistoryEntity> historyTemp = new ArrayList<>();
+            for(SettingHistoryEntity history : Cache.getSettingHistoryCache()){
+                if(!history.getDeploied() && history.getSettingid().equals(settingID)){
+                    historyTemp.add(history);
+                }
+            }
+
+            for (SettingHistoryEntity h : historyTemp){
+                Cache.getSettingHistoryCache().remove(h);
+                SQlUtil.delete(h);
+            }
+
+            Cache.getSettingCache().remove(temp);
+            SQlUtil.delete(temp);
+        }
+
+
+
+        return true;
+
+    }
+
+    public List<SettingEntity> getAllSettings(User u) {
 
         List<SettingEntity> result = new ArrayList<>();
 

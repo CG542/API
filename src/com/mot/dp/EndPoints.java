@@ -8,7 +8,6 @@ import com.mot.dp.entities.SettingEntity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,13 +82,25 @@ public class EndPoints {
         return String.valueOf(dpsetting.uploadSetting(u, profilename, setting));
     }
 
+    @POST
+    @Path("/DelSetting")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String delSetting(@FormParam("loginname") String loginname,
+                                @FormParam("password") String password,
+                                @FormParam("profilename") String profilename){
+        User u = new User(loginname, password);
+        DPSetting dpsetting = new DPSetting();
+
+        return String.valueOf(dpsetting.delSetting(u, profilename));
+    }
+
     @GET
     @Path("/GetAllSettings")
     @Produces(MediaType.APPLICATION_JSON)
     public List<SettingEntity> getAllSettings(@QueryParam("loginname") String loginname,
                                               @QueryParam("password") String password) {
         User u = new User(loginname, password);
-        List<SettingEntity> result = new DPSetting().getAllSettins(u);
+        List<SettingEntity> result = new DPSetting().getAllSettings(u);
         return result;
 
     }
