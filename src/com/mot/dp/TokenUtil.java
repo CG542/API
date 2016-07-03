@@ -30,4 +30,10 @@ public class TokenUtil {
             return null;
         }
     }
+
+    public static String ClearTokens(){
+        int n = tokens.size();
+        tokens.clear();
+        return "Clear "+String.valueOf(n)+" tokens";
+    }
 }

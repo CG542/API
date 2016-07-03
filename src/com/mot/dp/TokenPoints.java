@@ -7,6 +7,7 @@ import com.mot.dp.entities.UserEntity;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,14 +71,14 @@ public class TokenPoints {
     @GET
     @Path("/GetAllSettings")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SettingEntity> getAllSettings(@FormParam("token") String uuid) {
+    public List<SettingEntity> getAllSettings(@QueryParam("token") String uuid) {
 
         UserEntity u = TokenUtil.GetUserInfo(uuid);
         if(u!=null){
             EndPoints ep =new EndPoints();
             return ep.getAllSettings(u.getName(),u.getPassword());
         }
-        return null;
+        return new ArrayList<SettingEntity>();
     }
 
 
@@ -125,8 +126,16 @@ public class TokenPoints {
             EndPoints ep =new EndPoints();
             return ep.queryDPStatus(u.getName(),u.getPassword(),time);
         }
-        return null;
+        return new ArrayList<DpStatusEntity>();
 
+    }
+
+    @GET
+    @Path("/Reload")
+    @Produces("text/html")
+    public String reload(){
+
+        return TokenUtil.ClearTokens();
     }
 
 }
