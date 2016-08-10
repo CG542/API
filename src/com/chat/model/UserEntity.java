@@ -2,6 +2,7 @@ package com.chat.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class UserEntity {
         this.userName = userName;
     }
 
+    @XmlTransient
     public String getPassword() {
         return password;
     }
