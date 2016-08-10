@@ -1,6 +1,7 @@
 package com.chat.controller;
 
 
+import com.chat.data.DataHandler;
 import com.chat.model.UserEntity;
 import com.chat.util.CacheUtil;
 
@@ -18,7 +19,8 @@ public class UserController {
     }
 
     public static UserEntity getEntity(String name,String password){
-        for(UserEntity entity: CacheUtil.getAllUserEntity()){
+        //for(UserEntity entity: CacheUtil.getAllUserEntity()){
+        for(UserEntity entity: DataHandler.getInstance().getAllUserEntity()){
             if(entity.getUserName().equals(name)&&entity.getPassword().equals(password)){
                 return entity;
             }
@@ -27,7 +29,8 @@ public class UserController {
     }
 
     public static UserEntity getEntity(int id){
-        for(UserEntity entity: CacheUtil.getAllUserEntity()){
+        //for(UserEntity entity: CacheUtil.getAllUserEntity()){
+        for(UserEntity entity: DataHandler.getInstance().getAllUserEntity()){
             if(entity.getId()==id){
                 return entity;
             }
@@ -39,7 +42,8 @@ public class UserController {
         List firends = userEntity.getFriendIDs();
         List<UserEntity> result = new ArrayList<>();
 
-        for(UserEntity entity: CacheUtil.getAllUserEntity()){
+        //for(UserEntity entity: CacheUtil.getAllUserEntity()){
+        for(UserEntity entity: DataHandler.getInstance().getAllUserEntity()){
             if(firends.contains(entity.getId()) && entity.getId()!=userEntity.getId()){
                 result.add(entity);
             }
@@ -48,39 +52,39 @@ public class UserController {
 
         return result;
     }
-
-    static {
-        if(CacheUtil.getAllUserEntity().size()==0){
-            createFakeData();
-        }
-
-    }
-
-    private static void createFakeData(){
-        UserEntity u1= new UserEntity();
-        u1.setId(1);
-        u1.setUserName("janny");
-        u1.setPassword("123");
-
-        UserEntity u2 = new UserEntity();
-        u2.setId(2);
-        u2.setUserName("yl");
-        u2.setPassword("123");
-
-        UserEntity u3= new UserEntity();
-        u3.setId(3);
-        u3.setUserName("lln");
-        u3.setPassword("123");
-
-        CacheUtil.addUserEntity(u1);
-        CacheUtil.addUserEntity(u2);
-        CacheUtil.addUserEntity(u3);
-
-        for(UserEntity entity: CacheUtil.getAllUserEntity()){
-            entity.setFriendIDs(new ArrayList<Integer>());
-            entity.getFriendIDs().add(1);
-            entity.getFriendIDs().add(2);
-            entity.getFriendIDs().add(3);
-        }
-    }
+//
+//    static {
+//        if(CacheUtil.getAllUserEntity().size()==0){
+//            createFakeData();
+//        }
+//
+//    }
+//
+//    private static void createFakeData(){
+//        UserEntity u1= new UserEntity();
+//        u1.setId(1);
+//        u1.setUserName("janny");
+//        u1.setPassword("123");
+//
+//        UserEntity u2 = new UserEntity();
+//        u2.setId(2);
+//        u2.setUserName("yl");
+//        u2.setPassword("123");
+//
+//        UserEntity u3= new UserEntity();
+//        u3.setId(3);
+//        u3.setUserName("lln");
+//        u3.setPassword("123");
+//
+//        CacheUtil.addUserEntity(u1);
+//        CacheUtil.addUserEntity(u2);
+//        CacheUtil.addUserEntity(u3);
+//
+//        for(UserEntity entity: CacheUtil.getAllUserEntity()){
+//            entity.setFriendIDs(new ArrayList<Integer>());
+//            entity.getFriendIDs().add(1);
+//            entity.getFriendIDs().add(2);
+//            entity.getFriendIDs().add(3);
+//        }
+//    }
 }

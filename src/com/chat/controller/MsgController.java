@@ -1,5 +1,6 @@
 package com.chat.controller;
 
+import com.chat.data.DataHandler;
 import com.chat.model.MsgEntity;
 import com.chat.model.UserEntity;
 import com.chat.util.CacheUtil;
@@ -23,7 +24,8 @@ public class MsgController {
         msg.setContent(content);
         msg.setTime(TimeUtil.getCurrentTime());
 
-        CacheUtil.addMsgEntity(msg);
+        //CacheUtil.addMsgEntity(msg);
+        DataHandler.getInstance().addMsgEntity(msg);
 
     }
 
@@ -31,7 +33,8 @@ public class MsgController {
 
         List<MsgEntity> result = new ArrayList<>();
 
-        for(MsgEntity msg : CacheUtil.getAllMsgEntity()){
+        //for(MsgEntity msg : CacheUtil.getAllMsgEntity()){
+        for(MsgEntity msg : DataHandler.getInstance().getAllMsgEntity()){
             if((msg.getToID()==userEntity.getId() || msg.getFromID()==userEntity.getId())
                 && msg.getTime().compareTo(time)>=0){
                 result.add(msg);

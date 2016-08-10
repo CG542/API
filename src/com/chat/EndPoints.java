@@ -4,6 +4,7 @@ package com.chat;
 
 import com.chat.controller.MsgController;
 import com.chat.controller.UserController;
+import com.chat.data.DataHandler;
 import com.chat.model.MsgEntity;
 import com.chat.model.UserEntity;
 import com.chat.util.CacheUtil;
@@ -80,7 +81,7 @@ public class EndPoints {
     @Produces("text/html")
     public String reload(){
 
-        String result= TokenUtil.clearTokens()+ CacheUtil.clearMsg();
+        String result= TokenUtil.clearTokens()+ DataHandler.getInstance().clear();//+ CacheUtil.clearMsg();
         return result;
     }
 }
